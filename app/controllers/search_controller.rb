@@ -3,8 +3,10 @@ class SearchController < ApplicationController
       @conn = Faraday.new(url: "https://developer.nrel.gov") do |faraday_object|
       faraday_object.adapter Faraday.default_adapter
     end
-    @stations = Station.new(search_by_state)
-    binding.pry
+    @station_maker = search_by_state
+    @stations = @station_maker.each do |station|
+      Station.new(station)
+    end
   end
 
     def search_by_state
@@ -14,6 +16,7 @@ class SearchController < ApplicationController
 end
     class Station
       def initialize(attrs)
+        binding.pry
         name = :station_name
         address = :street_address
         fuel_type = :fuel_type_code
