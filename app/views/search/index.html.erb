@@ -1,0 +1,15 @@
+<h2><%= @stations.count %> Results </h2>
+
+<div class="stations">
+  <% @stations.each do |station| %>
+
+  Name, Address, Fuel Types, Distance, and Access Times
+
+  <ul class="station">
+    <li class="name"><%= station.name%></li>
+    <li class="address"><%=station.address%></li>
+    <li class="fuel_type"><%=station.distance%></li>
+    <li class="access_times"><%=station.access_times%></li>
+  </ul>
+  <% end %>
+</div> 
