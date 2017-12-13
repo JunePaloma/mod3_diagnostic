@@ -4,16 +4,16 @@ class SearchController < ApplicationController
       faraday_object.adapter Faraday.default_adapter
     end
 
-    @stations = search_by_state.map do |station|
+    @stations = search_by_zip(params[:q]).map do |station|
       Station.new(station)
     end
   end
 
-    def search_by_state
-    response = @conn.get("/api/alt-fuel-stations/v1.json?fuel_type=E85,ELEC&radius=6&location=80203&limit=10&api_key=#{ENV["nrel_api_key"]}")
+    def search_by_zip(zip)
+    response = @conn.get("/api/alt-fuel-stations/v1.json?fuel_type=E85,ELEC&radius=6&location=#{zip}&limit=10&api_key=#{ENV["nrel_api_key"]}")
     JSON.parse(response.body, symbolize_names: true)[:fuel_stations]
     end
-end
+  end
     class Station
       attr_reader :name, :address, :fuel_type, :access_times
       def initialize(attrs = {})
