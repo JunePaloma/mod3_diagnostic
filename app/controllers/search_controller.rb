@@ -3,8 +3,8 @@ class SearchController < ApplicationController
       @conn = Faraday.new(url: "https://developer.nrel.gov") do |faraday_object|
       faraday_object.adapter Faraday.default_adapter
     end
-    @station_maker = search_by_state
-    @stations = @station_maker.each do |station|
+
+    @stations = search_by_state.map do |station|
       Station.new(station)
     end
   end
@@ -15,14 +15,12 @@ class SearchController < ApplicationController
     end
 end
     class Station
-      def initialize(attrs)
-        binding.pry
-        name = :station_name
-        address = :street_address
-        fuel_type = :fuel_type_code
-        access_times = :access_days_time
+      attr_reader :name, :address, :fuel_type, :access_times
+      def initialize(attrs = {})
+        @name = attrs[:station_name]
+        @address = attrs[:street_address]
+        @fuel_type = attrs[:fuel_type_code]
+        @access_times = attrs[:access_days_time]
     end
-      def address
-        # need a methond to concat the address
-      end
+
 end
